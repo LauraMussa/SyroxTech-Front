@@ -39,7 +39,6 @@ export default function AnalyticsPage() {
     try {
       setIsExporting(true); // Activamos estado de carga
 
-      // Llamamos a tu función mágica
       exportAnalyticsToExcel(analyticsData);
 
       toast.success("Reporte descargado exitosamente");
@@ -47,7 +46,6 @@ export default function AnalyticsPage() {
       console.error("Error al exportar:", error);
       toast.error("Hubo un error al generar el Excel");
     } finally {
-      // Pequeño delay para que se vea el feedback visual (opcional)
       setTimeout(() => setIsExporting(false), 500);
     }
   };
@@ -58,10 +56,9 @@ export default function AnalyticsPage() {
       <div className="flex items-center justify-between space-y-2">
         <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
         <div className="flex items-center  space-x-2">
-          <Label className="hidden md:flex mt-1">Diciembre 2025</Label>
-          <Button size="sm" className="cursor-pointer" onClick={handleExport} disabled={isExporting}>
+          <Button variant="outline" className="cursor-pointer" onClick={handleExport} disabled={isExporting}>
             <Download className="mr-2 h-4 w-4" />
-            {isExporting ? "Generando..." : "Exportar Reporte"}
+            {isExporting ? "Generando..." : "Descargar Reporte"}
           </Button>
         </div>
       </div>

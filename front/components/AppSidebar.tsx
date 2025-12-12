@@ -1,5 +1,5 @@
 "use client";
-import { Home, Package, ShoppingCart, BarChart3, Users, LogOut } from "lucide-react";
+import { Home, Package, ShoppingCart, BarChart3, Users, LogOut, Menu } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -12,6 +12,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -23,7 +24,7 @@ const items = [
   { title: "Inicio", icon: Home, url: "/" },
   { title: "Ventas", icon: ShoppingCart, url: "/sales" },
   { title: "Productos", icon: Package, url: "/products" },
-  { title: "Categorías", icon: Package, url: "/categories" },
+  { title: "Categorías", icon: Menu, url: "/categories" },
   { title: "Clientes", icon: Users, url: "/customers" },
   { title: "Analíticas", icon: BarChart3, url: "/analytics" },
 ];
@@ -31,17 +32,31 @@ const items = [
 export function AppSidebar() {
   const pathname = usePathname();
   const dispatch = useAppDispatch();
+  const { state } = useSidebar();
 
   const router = useRouter();
   const handleLogout = () => {
-    dispatch(logout()); 
-    router.push("/login"); 
+    dispatch(logout());
+    router.push("/login");
   };
+
   return (
     <Sidebar collapsible="icon">
-      <SidebarHeader className=" dark:bg-background border-b h-16 flex items-center px-4 justify-center">
-        <span className="font-bold  hidden md:text-lg ">Tennis Star</span>
-        <Image src={"/logo.svg"} width={90} height={90} alt="logo" className=""></Image>
+      <SidebarHeader className="dark:bg-background border-b h-16 flex items-center justify-center px-4">
+        {state === "expanded" ? (
+          <>
+            <span className="font-bold hidden md:text-lg truncate">Tennis Star</span>
+            <Image
+              src={"/logo.svg"}
+              width={90}
+              height={90}
+              alt="logo"
+              className="object-contain" // Buena práctica para evitar deformaciones
+            />
+          </>
+        ) : (
+          <Image src={"/logoSmall.svg"} width={40} height={40} alt="logo small" className="object-contain" />
+        )}
       </SidebarHeader>
 
       <SidebarContent className="dark:bg-background">
