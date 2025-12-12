@@ -1,14 +1,18 @@
-
-import { BestSellerProduct, CreateProductInput, InventoryResponse, Product, ProductsResponse } from "@/types/product.types";
+import { getAuthHeaders } from "@/helpers/api-helper";
+import {
+  BestSellerProduct,
+  CreateProductInput,
+  InventoryResponse,
+  Product,
+  ProductsResponse,
+} from "@/types/product.types";
 
 const API_URL = process.env.NEXT_PUBLIC_API;
 
 export const getIventoryStatsService = async (): Promise<InventoryResponse> => {
   try {
     const response = await fetch(`${API_URL}/dashboard/inventory-stats`, {
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: getAuthHeaders(),
     });
     if (!response.ok) {
       const error = await response.json();
@@ -24,12 +28,10 @@ export const getIventoryStatsService = async (): Promise<InventoryResponse> => {
   }
 };
 
-export const getAllProductsPagService = async (): Promise<ProductsResponse> => {
+export const getAllProductsPagService = async (page: number, limit: number): Promise<ProductsResponse> => {
   try {
-    const response = await fetch(`${API_URL}/products`, {
-      headers: {
-        "Content-Type": "application/json",
-      },
+    const response = await fetch(`${API_URL}/products?page=${page}&limit=${limit}`, {
+      headers: getAuthHeaders(),
     });
     if (!response.ok) {
       const error = await response.json();
@@ -48,9 +50,7 @@ export const getAllProductsPagService = async (): Promise<ProductsResponse> => {
 export const getAllProductsService = async (): Promise<ProductsResponse> => {
   try {
     const response = await fetch(`${API_URL}/dashboard/products`, {
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: getAuthHeaders(),
     });
     if (!response.ok) {
       const error = await response.json();
@@ -69,9 +69,7 @@ export const getAllProductsService = async (): Promise<ProductsResponse> => {
 export const getBestSellersService = async (): Promise<BestSellerProduct[]> => {
   try {
     const response = await fetch(`${API_URL}/products/top-selling`, {
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: getAuthHeaders(),
     });
     if (!response.ok) {
       const error = await response.json();
@@ -91,16 +89,86 @@ export const addProductService = async (values: CreateProductInput) => {
   try {
     const response = await fetch(`${API_URL}/products`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: getAuthHeaders(),
       body: JSON.stringify(values),
     });
     if (!response.ok) {
       const error = await response.json();
       throw new Error(error.message || "Error al agregar producto");
     }
-    const data = response.json();
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const deleteProductService = async (productId: string) => {
+  try {
+    const response = await fetch(`${API_URL}/products/${productId}`, {
+      method: "DELETE",
+      headers: getAuthHeaders(),
+    });
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || "Error al borrar producto");
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const updateProductStatusService = async (productId: string) => {
+  try {
+    const response = await fetch(`${API_URL}/products/update-status/${productId}`, {
+      method: "PATCH",
+      headers: getAuthHeaders(),
+    });
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || "Error al actualizar estado de producto");
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const updateProductService = async (productId: string, productData: Partial<CreateProductInput>) => {
+  try {
+    const response = await fetch(`${API_URL}/products/${productId}`, {
+      method: "PATCH",
+      headers: getAuthHeaders(),
+      body: JSON.stringify(productData),
+    });
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || "Error al actualizar estado de producto");
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const getProductByIdService = async (productId: string) => {
+  try {
+    const response = await fetch(`${API_URL}/products/${productId}`, {
+      headers: getAuthHeaders(),
+    });
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || "Error al obtener detalle de producto");
+    }
+    const data = await response.json();
     return data;
   } catch (error) {
     console.log(error);
