@@ -17,7 +17,7 @@ import {
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
-import { logout } from "@/store/auth/authSlice";
+import { logout, performLogout } from "@/store/auth/authSlice";
 import { useAppDispatch } from "@/store/hooks";
 
 const items = [
@@ -35,8 +35,9 @@ export function AppSidebar() {
   const { state } = useSidebar();
 
   const router = useRouter();
+  
   const handleLogout = () => {
-    dispatch(logout());
+    dispatch(performLogout());
     router.push("/login");
   };
 
