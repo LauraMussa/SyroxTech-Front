@@ -1,7 +1,4 @@
 import type { NextConfig } from "next";
-
-console.log("🛠️ CONSTRUYENDO NEXT CONFIG");
-console.log("📍 BACKEND_URL DETECTADO:", process.env.BACKEND_URL);
 const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
