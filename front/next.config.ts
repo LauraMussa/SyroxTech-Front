@@ -15,13 +15,18 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: __dirname,
   },
-  async rewrites() {
-    return [
-      {
-        source: "/api/:path*",
-        destination: `${process.env.BACKEND_UR || "http://localhost:3001"}/:path*`,
-      },
-    ];
+   async rewrites() {
+    return {
+      
+      beforeFiles: [
+        {
+          source: '/api/:path*',
+          destination: `${process.env.BACKEND_URL}/:path*`, 
+        },
+      ],
+     
+      fallback: []
+    };
   },
 };
 
