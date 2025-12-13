@@ -36,10 +36,10 @@ export function AppSidebar() {
 
   const router = useRouter();
 
-  const handleLogout = () => {
-    dispatch(performLogout());
-    window.location.reload();
-    router.push("/login");
+  const handleLogout = async () => {
+    await dispatch(performLogout()).unwrap();
+
+    window.location.href = "/login";
   };
 
   return (
