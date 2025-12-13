@@ -35,9 +35,10 @@ export function AppSidebar() {
   const { state } = useSidebar();
 
   const router = useRouter();
-  
+
   const handleLogout = () => {
     dispatch(performLogout());
+    window.location.reload();
     router.push("/login");
   };
 
