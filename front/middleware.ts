@@ -15,18 +15,18 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  const protectedPrefixes = ["/analytics", "/categories", "/customers", "/products", "/sales"];
+  // const protectedPrefixes = ["/analytics", "/categories", "/customers", "/products", "/sales"];
 
-  const isProtectedRoute = protectedPrefixes.some((prefix) => {
-    if (prefix === "/") return path === "/"; // Solo coincidir exacto con home
-    return path.startsWith(prefix);
-  });
+  // const isProtectedRoute = protectedPrefixes.some((prefix) => {
+  //   if (prefix === "/") return path === "/"; // Solo coincidir exacto con home
+  //   return path.startsWith(prefix);
+  // });
 
-  if (isProtectedRoute) {
-    if (!token) {
-      return NextResponse.redirect(new URL("/login", request.url));
-    }
-  }
+  // if (isProtectedRoute) {
+  //   if (!token) {
+  //     return NextResponse.redirect(new URL("/login", request.url));
+  //   }
+  // }
 
   return NextResponse.next();
 }
