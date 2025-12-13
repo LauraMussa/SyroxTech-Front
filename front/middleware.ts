@@ -15,11 +15,8 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  const protectedPrefixes = ["/analytics", "/categories", "/customers", "/products", "/sales", "/"];
+  const protectedPrefixes = ["/analytics", "/categories", "/customers", "/products", "/sales"];
 
-  // Ojo con el '/' en protectedPrefixes, porque coincide con TODO.
-  // Asegúrate de que esa lógica sea la que quieres.
-  // Usualmente se verifica si path === '/' explícitamente o se usa un dashboard prefix.
   const isProtectedRoute = protectedPrefixes.some((prefix) => {
     if (prefix === "/") return path === "/"; // Solo coincidir exacto con home
     return path.startsWith(prefix);
