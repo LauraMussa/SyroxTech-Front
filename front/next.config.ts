@@ -1,5 +1,7 @@
 import type { NextConfig } from "next";
 
+console.log("🛠️ CONSTRUYENDO NEXT CONFIG");
+console.log("📍 BACKEND_URL DETECTADO:", process.env.BACKEND_URL);
 const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
@@ -17,7 +19,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/api/:path*",
-        destination: `${process.env.BACKEND_UR|| "http://localhost:3001"}/:path*`,
+        destination: `${process.env.BACKEND_UR || "http://localhost:3001"}/:path*`,
       },
     ];
   },
